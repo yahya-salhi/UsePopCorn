@@ -11,6 +11,8 @@ import WatchedList from "./components/WatchedList";
 import MoviesList from "./components/MoviesList";
 import StartRating from "./StartRating";
 import { useMovies } from "./useMovies";
+import { useLocalStorageState } from "./useLocalStorageState";
+const KEY = "69bfb47e";
 const tempMovieData = [
   {
     imdbID: "tt1375666",
@@ -66,12 +68,15 @@ export default function App() {
   const [selectId, setSelectId] = useState(null);
 
   const { movies, isLoading, error } = useMovies(query);
+  const [watched, setWatched] = useLocalStorageState([], "watched");
 
   // const [watched, setWatched] = useState([]);
-  const [watched, setWatched] = useState(() => {
-    const storedValue = localStorage.getItem("watched");
-    return JSON.parse(storedValue);
-  });
+
+  // move to useLocalStorageState()
+  // const [watched, setWatched] = useState(() => {
+  //   const storedValue = localStorage.getItem("watched");
+  //   return JSON.parse(storedValue);
+  // });
 
   // useEffect(function () {
   //   fetch(`http://www.omdbapi.com/?apikey=${KEY}&S=interstellar`)
@@ -92,9 +97,10 @@ export default function App() {
     setWatched((watched) => watched.filter((movie) => movie.imdbID !== id));
   }
 
-  useEffect(() => {
-    localStorage.setItem("watched", JSON.stringify(watched));
-  }, [watched]);
+  //move to useLocalStorageState.js
+  // useEffect(() => {
+  //   localStorage.setItem("watched", JSON.stringify(watched));
+  // }, [watched]);
 
   // this hook be customize in useMovies
   // useEffect(
