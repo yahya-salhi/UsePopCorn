@@ -12,6 +12,7 @@ import MoviesList from "./components/MoviesList";
 import StartRating from "./StartRating";
 import { useMovies } from "./useMovies";
 import { useLocalStorageState } from "./useLocalStorageState";
+import { useKey } from "./useKey";
 const KEY = "69bfb47e";
 const tempMovieData = [
   {
@@ -287,21 +288,23 @@ function MovieDetails({ selectId, onCloseMovie, onAddWatched, watched }) {
     };
   }, [title]);
 
-  useEffect(
-    function () {
-      function callback(e) {
-        if (e.code === "Escape") {
-          onCloseMovie();
-          console.log("closing");
-        }
-      }
-      document.addEventListener("keydown", callback);
-      return () => {
-        document.removeEventListener("keydown", callback);
-      };
-    },
-    [onCloseMovie]
-  );
+  //reuse this hook to custom hook called useKey
+  // useEffect(
+  //   function () {
+  //     function callback(e) {
+  //       if (e.code === "Escape") {
+  //         onCloseMovie();
+  //         console.log("closing");
+  //       }
+  //     }
+  //     document.addEventListener("keydown", callback);
+  //     return () => {
+  //       document.removeEventListener("keydown", callback);
+  //     };
+  //   },
+  //   [onCloseMovie]
+  // );
+  useKey("Escape", onCloseMovie);
   return (
     <div className="details">
       <header>
